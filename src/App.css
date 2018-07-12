@@ -25,8 +25,9 @@ div.body {
   margin: 0;
   padding: 0;
 }
-.custom-file-input{
+#none{
   position: absolute;
+  display: none;
 }
 .rounded-circle.input:hover {
   cursor: pointer;
@@ -117,6 +118,9 @@ span.logo {
   background-color: #e088bb;
   border-color: #e088bb;
   cursor: pointer;
+}
+.important {
+  background-color: #f4e6f2;
 }
 .btn:active {
   opacity: 0.9;
