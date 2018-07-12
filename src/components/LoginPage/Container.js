@@ -26,6 +26,7 @@ class Container extends Component {
                     <div className="container">
                         {this.props.friendRequests.map(request =>
                             <CardChooseCouple
+                                noti={this.props.noti}
                                 key={request._id}
                                 className="stack"
                                 onLogOut={this.props.onLogOut}
@@ -45,6 +46,7 @@ class Container extends Component {
                                 onLogOut={this.props.onLogOut}
                                 onCancelInvite={this.props.onCancelInvite} />
                             : <CardPairing
+                                noti={this.props.noti}
                                 onsendRequest={this.props.onsendRequest}
                                 onLogOut={this.props.onLogOut} />}
                     </div>
@@ -55,10 +57,12 @@ class Container extends Component {
                 <div className="container">
                     {this.state.CardSignIn ?
                         <CardSignIn
+                            noti={this.props.noti}
                             containerToShow={this.containerToShow}
                             onSignIn={this.props.onSignIn} /> : ""}
                     {this.state.CardSignUp ?
                         <CardSignUp
+                            noti={this.props.noti}
                             containerToShow={this.containerToShow}
                             onSignIn={this.props.onSignIn}
                             onSignUp={this.props.onSignUp} /> : ""}

@@ -19,6 +19,9 @@ class App extends Component {
     if (newFriendRequestSended.length > 0) this.setState({ friendRequestSended: newFriendRequests })
     if (newFriendRequests.length > 0) this.setState({ friendRequests: newFriendRequests });
   }
+  setAlert = (noti) => {
+    this.setState({noti: noti})
+  }
 
   componentWillMount = () => {
     axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
@@ -112,6 +115,7 @@ class App extends Component {
           {(this.state.userInfo && this.state.friend)
             ? "Chatroom"
             : <Container
+              noti={this.state.noti}
               onDeclineInvite={this.onDeclineInvite}
               onAceptInvite={this.onAceptInvite}
               onLogOut={this.onLogOut}
