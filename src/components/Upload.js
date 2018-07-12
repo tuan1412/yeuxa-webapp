@@ -13,7 +13,6 @@ class Upload extends Component {
 
 
 
-
     _handleImageChange = e => {
         e.preventDefault();
         console.log(e.target.files[0]);
@@ -45,7 +44,7 @@ class Upload extends Component {
                 ? < div className="text-center mb-4" >
                     <label className="rounded-circle input">
                         <p className="instruction-helper" >Add avatar</p>
-                        <input type="file"  onChange={this._handleImageChange} className="custom-file-input" />
+                        <input type="file"  onChange={this._handleImageChange} id="none" className="custom-file-input" />
                     </label>
                 </div >
                 : < div className="text-center mb-4" >
