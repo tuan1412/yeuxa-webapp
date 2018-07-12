@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class CardFooter extends Component {
     containerToShow = event => {
-        this.props.containerToShow(false, true, false, false)
+        this.props.containerToShow(false, true)
     }
     render() {
         return (

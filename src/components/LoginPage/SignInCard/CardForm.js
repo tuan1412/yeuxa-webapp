@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 class CardForm extends Component {
     onSignIn = event => {
-        this.props.onSignIn(this.props.email, this.props.password)
+        event.preventDefault();
+        this.props.onSignIn(this.props.username, this.props.password)
     }
-    onEmailChange = event => {
-        this.props.onEmailChange(event.target.value)
+    onUsernameChange = event => {
+        this.props.onUsernameChange(event.target.value)
     }
     onPasswordChange = event => {
         this.props.onPasswordChange(event.target.value)
@@ -13,9 +14,9 @@ class CardForm extends Component {
     render() {
         return (
             <div className="card-body">
-                <div className="form">
+                <form className="form">
                     <div className="form-group">
-                        <input onChange={this.onEmailChange} type="email" className="form-control" aria-describedby="emailHelp" placeholder="Enter email" />
+                        <input onChange={this.onUsernameChange} type="text" className="form-control" aria-describedby="usernameHelp" placeholder="Enter Username" />
                     </div>
                     <div className="form-group">
                         <input onChange={this.onPasswordChange} type="password" className="form-control" placeholder="Password" />
@@ -27,7 +28,7 @@ class CardForm extends Component {
                             Remember me .....
                         </label>
                     </div>
-                </div>
+                </form>
             </div>
         );
     }

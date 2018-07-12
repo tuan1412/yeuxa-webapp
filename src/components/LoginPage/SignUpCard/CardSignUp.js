@@ -9,8 +9,12 @@ class CardSignUp extends Component {
         return (
             <div className="card">
                 <CardHeader />
-                <CardForm onSignUp={this.props.onSignUp} />
-                <CardFooter containerToShow={this.props.containerToShow} />
+                <CardForm
+                    containerToShow={this.props.containerToShow}
+                    onSignUp={this.props.onSignUp}
+                    onSignIn={this.props.onSignIn} />
+                <CardFooter
+                    containerToShow={this.props.containerToShow} />
             </div>
         );
     }

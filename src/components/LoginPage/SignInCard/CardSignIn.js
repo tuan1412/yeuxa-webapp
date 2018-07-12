@@ -8,14 +8,14 @@ import CardFooter from './CardFooter';
 
 class CardSignIn extends Component {
     state = {
-        email: "",
+        username: "",
         password: "",
     }
 
 
-    onEmailChange = (newemail) => {
+    onUsernameChange = (newusername) => {
         this.setState({
-            email: newemail
+            username: newusername
         });
     }
     onPasswordChange = (newpassword) => {
@@ -28,9 +28,9 @@ class CardSignIn extends Component {
             <div className="card">
                 <CardLogo />
                 <CardForm   onSignIn={this.props.onSignIn}
-                            onEmailChange={this.onEmailChange} 
+                            onUsernameChange={this.onUsernameChange} 
                             onPasswordChange={this.onPasswordChange}
-                            email={this.state.email}
+                            username={this.state.username}
                             password={this.state.password} />
                 <CardFooter containerToShow={this.props.containerToShow}/>
             </div>

@@ -15,6 +15,32 @@ div.body {
   opacity: 0.7;
   cursor: pointer;
 }
+.stack {
+  position: absolute
+}
+.rounded-circle {
+  background-color: #f3e3f4;
+  width: 100px;
+  height:100px;
+  margin: 0;
+  padding: 0;
+}
+.custom-file-input{
+  position: absolute;
+}
+.rounded-circle.input:hover {
+  cursor: pointer;
+}
+.pre-ava{
+  width: 80px;
+  height:80px;
+}
+.rounded-circle > * {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 p {
   padding: 0;
   margin: 0;
@@ -105,4 +131,8 @@ span.logo {
 .form-check-label {
   display: flex;
   align-items: center;
+}
+#ignore-btn {
+  background-color: #abbfdd;
+  border-color: #abbfdd;
 }

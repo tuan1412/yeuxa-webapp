@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CardFooter extends Component {
     containerToShow = event => {
         console.log('áđâsd');
-        this.props.containerToShow(true, false, false, false)
+        this.props.containerToShow(true, false)
     }
     render() {
         return (
