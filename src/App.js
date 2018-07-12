@@ -115,7 +115,6 @@ class App extends Component {
           {(this.state.userInfo && this.state.friend)
             ? "Chatroom"
             : <Container
-              noti={this.state.noti}
               onDeclineInvite={this.onDeclineInvite}
               onAceptInvite={this.onAceptInvite}
               onLogOut={this.onLogOut}
