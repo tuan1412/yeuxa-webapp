@@ -17,7 +17,11 @@ class Container extends Component {
             CardSignUp: CardSignUp,
         })
     }
-
+    onLogOut = () => {
+        this.containerToShow(true, false);
+        this.props.onLogOut();
+    }
+    
     render() {
         if (this.props.userInfo) {
 
@@ -28,7 +32,7 @@ class Container extends Component {
                             <CardChooseCouple
                                 key={request._id}
                                 className="stack"
-                                onLogOut={this.props.onLogOut}
+                                onLogOut={this.onLogOut}
                                 friendRequests={request}
                                 onDeclineInvite={this.props.onDeclineInvite}
                                 onAceptInvite={this.props.onAceptInvite} />
@@ -42,11 +46,11 @@ class Container extends Component {
                         {this.props.friendRequestSended
                             ? <CardRequestSended
                                 friendRequestSended={this.props.friendRequestSended}
-                                onLogOut={this.props.onLogOut}
+                                onLogOut={this.onLogOut}
                                 onCancelInvite={this.props.onCancelInvite} />
                             : <CardPairing
                                 onsendRequest={this.props.onsendRequest}
-                                onLogOut={this.props.onLogOut} />}
+                                onLogOut={this.onLogOut} />}
                     </div>
                 )
             }

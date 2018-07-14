@@ -4,8 +4,9 @@ import './App.css';
 import 'react-fontawesome';
 import axios from './axios';
 
-import Container from "./components/LoginPage/Container";
 
+import Container from "./components/LoginPage/Container";
+import Home from "./components/ChatroomPage/Home";
 
 class App extends Component {
 
@@ -31,7 +32,12 @@ class App extends Component {
           })
         }
       })
-      .then(lists => this.onLoginDone(lists))
+      .then(lists => {
+        console.log(lists);
+        this.onLoginDone(lists);
+
+      } )
+        
       .catch(err => console.log(err));
   }
 
@@ -47,7 +53,7 @@ class App extends Component {
         })
       })
       .then(lists => this.onLoginDone(lists))
-      .catch(err => alert('incorrect username or password !'));
+      .catch(err => console.log(err.err));
   }
   
   onSignUp = (avatar, name, username, password, onSignIn) => {
@@ -59,7 +65,7 @@ class App extends Component {
       formData.append("password", password);
       axios.post("https://yeuxa-api.herokuapp.com/api/users/", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(response => this.onSignIn(username, password))
-        .catch(err => console.error(err));
+        .catch(err => console.log(err));
     
   }
 
@@ -110,8 +116,11 @@ class App extends Component {
     return (
       <div className="App">
         <div className="body" >
-          {(this.state.userInfo && this.state.userInfo.friend)
-            ? <div onClick={this.onLogOut}>"Chatroom"</div>
+          {(this.state.userInfo && this.state.userInfo.room)
+            ? <Home
+              onLogOut={this.onLogOut}
+              userInfo={this.state.userInfo}
+              />
             : <Container
               onDeclineInvite={this.onDeclineInvite}
               onAceptInvite={this.onAceptInvite}
