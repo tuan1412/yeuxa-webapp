@@ -3,10 +3,6 @@ import Upload from '../../Upload'
 
 class CardForm extends Component {
     state = {
-        avatar: [],
-        name: '',
-        username: '',
-        password: '',
     }
     onChangeName = event => {
         this.setState({ name: event.target.value })
