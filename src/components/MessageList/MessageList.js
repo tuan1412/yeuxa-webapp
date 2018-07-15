@@ -5,9 +5,9 @@ class MessageList extends Component {
 
   render() {
     const { user, messages, lover } = this.props;
-    const messageItems = messages.map(message => {
+    const messageItems = messages.map((message, index) => {
       let isUser = message.userName === user.username;
-      return <MessageItem isUser={isUser} message={message.body} user={user} lover={lover} />
+      return <MessageItem index={index} isUser={isUser} message={message.body} user={user} lover={lover} />
 
     })
     return (

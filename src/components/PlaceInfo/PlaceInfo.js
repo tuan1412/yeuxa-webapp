@@ -8,7 +8,7 @@ class PlaceInfo extends Component {
         const { des, temp, icon } = weather;
         return (
             <div className="PlaceInfo">
-                {icon && <img alt="icon" src={`http://openweathermap.org/img/w/${icon}.png`}/>}
+                {icon && <img alt="icon" src={`https://openweathermap.org/img/w/${icon}.png`}/>}
                 {des && (<span>{des}, {temp}° </span>)}
                 {city && (<span>{city}, {country}</span>)}
             </div>
