@@ -11,4 +11,9 @@
 
 .MessageInput-button {
     margin: 10px;
+    background: #0069d9;
+}
+
+.MessageInput-button:hover {
+    background: #0069d9;
 }

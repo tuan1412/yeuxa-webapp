@@ -42,7 +42,6 @@ class Home extends Component {
             }))
 
         this.socket = io('localhost:9000');
-        console.log('will mount');
         const self = this;
         axios.get('https://geoip-db.com/json/')
             .then(res => this.socket.emit('online', {
@@ -52,9 +51,11 @@ class Home extends Component {
             }));
         this.socket.on('loveOnline', function (loveInfo) {
             console.log(loveInfo);
+            
             if (loveInfo.length >= 2) {
+                const love = loveInfo[0].username === username ? loveInfo[1] : loveInfo[0];
                 self.setState({
-                    lover: { ...self.state.lover, online: true }
+                    lover: { ...self.state.lover, online: true, place: love.place, location: love.location }
                 })
             }
         });
@@ -108,7 +109,8 @@ class Home extends Component {
                     <Col md="4"
                         style={{ height: "100%" }}>
                         <NavigationPanel
-                            lover={lover} />
+                            lover={lover}
+                            onLogOut={this.props.onLogOut} />
                     </Col>
                     <Col md="8"
                         style={{ height: "100%" }}>

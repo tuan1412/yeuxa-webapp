@@ -2,4 +2,9 @@
     position: absolute;
     bottom: 10px;
     left: 40px;
+    background: transparent;
+}
+
+.SignOutBtn:hover {
+    background: #ccc;
 }

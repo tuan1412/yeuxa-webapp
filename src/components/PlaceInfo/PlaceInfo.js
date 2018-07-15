@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import cloudy from '../../images/cloudy.svg';
 import './PlaceInfo.css';
 
 class PlaceInfo extends Component {
     render() {
-        const { place = {} } = this.props;
+        const { place = {}, weather } = this.props;
         const { city, country } = place;
+        const { des, temp, icon } = weather;
         return (
             <div className="PlaceInfo">
-                <img src={cloudy} alt="cloudy" />
+                {icon && <img alt="icon" src={`http://openweathermap.org/img/w/${icon}.png`}/>}
+                {des && (<span>{des}, {temp}° </span>)}
                 {city && (<span>{city}, {country}</span>)}
             </div>
 

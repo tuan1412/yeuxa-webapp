@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import axios from './axios';
-
-
 import Container from "./components/LoginPage/Container";
 import Home from "./containers/Home/Home";
 
@@ -14,10 +12,7 @@ class App extends Component {
     axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
       .then(response => {
         if (response.data) {
-          // console.log(response.data)
           this.setState({ userInfo: response.data });
-          console.log(response.data);
-          console.log('logged in')
           return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
           })
         }
@@ -125,22 +120,19 @@ class App extends Component {
   }
 
   onLogOut = () => {
+    console.log('logout');
     axios.delete('https://yeuxa-api.herokuapp.com/api/auth');
     this.setState({ userInfo: undefined });
   }
   onAceptInvite = (id, sender, receiver) => {
     axios.put('https://yeuxa-api.herokuapp.com/api/friend/accept-invitation', { id })
       .then(response => {
-        console.log('aceptInvite')
-        console.log(response.data._id)
-        console.log(this.state)
         let newUserInfo = this.state.userInfo;
         newUserInfo['room'] = response.data._id;
         this.setState({
           friendRequests: null,
           userInfo: newUserInfo
         });
-        console.log(this.state);
       })
       .catch(err => console.log(err));
   }
@@ -169,7 +161,6 @@ class App extends Component {
             fetchInProgress: false,
             friendRequestSended: username
           })
-          console.log(`request sended to: ` + username)
         })
         .catch(err => {
           this.setState({

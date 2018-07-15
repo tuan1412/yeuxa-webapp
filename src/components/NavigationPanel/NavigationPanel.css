@@ -1,5 +1,5 @@
 .NavigationPanel {
-    background: url('../../images/paris.jpg') no-repeat center fixed;
+    background: url('../../images/paris.jpg') no-repeat;
     background-size: cover;
     height: 100%;
     position: relative;
