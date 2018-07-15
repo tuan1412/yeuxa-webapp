@@ -6,7 +6,7 @@ import CardBody from './CardBody';
 class CardChooseCouple extends Component {
   render() {
     return (
-      <div className="card">
+      <div className="card stack">
         <CardHeader friendRequests={this.props.friendRequests} />
         <CardBody
           onLogOut={this.props.onLogOut}

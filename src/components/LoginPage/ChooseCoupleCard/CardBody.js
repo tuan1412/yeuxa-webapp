@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 class CardBody extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
     onDeclineInvite = event => {
         event.preventDefault();
         this.props.onDeclineInvite(this.props.friendRequests._id, this.props.friendRequests.sender, this.props.friendRequests.receiver);

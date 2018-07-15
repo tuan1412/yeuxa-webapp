@@ -5,6 +5,19 @@ div.body {
   font-size: 12px;
   opacity: 30%;
 }
+.loading {
+  height: 100%;
+
+  position: relative
+}
+div.warning {
+  height: 20px;
+  color: red;
+}
+.btn.btn-sm.btn-block.btn-loading {
+   background-color:  #fff;
+   border-color:  #fff;
+}
 .anchor {
   color: #d88cb8;
   font-weight: bold;
@@ -16,7 +29,8 @@ div.body {
   cursor: pointer;
 }
 .stack {
-  position: absolute
+  position: absolute;
+
 }
 .rounded-circle {
   background-color: #f3e3f4;

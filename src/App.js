@@ -6,58 +6,108 @@ import axios from './axios';
 
 
 import Container from "./components/LoginPage/Container";
-import Home from "./components/ChatroomPage/Home";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+    axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
+      .then(response => {
+        if (response.data) {
+          // console.log(response.data)
+          this.setState({ userInfo: response.data });
+          console.log(response.data);
+          console.log('logged in')
+          return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
+          })
+        }
+      })
+      .then(lists => this.onLoginDone(lists))
+      .catch(err => console.log(err));
+  }
 
-  state = {};
   onLoginDone = (lists) => {
     let newFriendRequests = [];
     let newFriendRequestSended = [];
-    lists.data.forEach(list => {
-      (list.sender === this.state.userInfo.username) ? newFriendRequestSended.push(list) : newFriendRequests.push(list);
-    })
-    if (newFriendRequestSended.length > 0) this.setState({ friendRequestSended: newFriendRequests })
-    if (newFriendRequests.length > 0) this.setState({ friendRequests: newFriendRequests });
-  }
+    for (let i = 0; i <= lists.data.length; i++) {
+      if (i === lists.data.length) {
+        if(i === 0) {
+          this.setState({
+            friendRequestSended: undefined,
+            friendRequests: undefined
+          })
+        } else {
+          this.setState({
+            friendRequestSended: newFriendRequests,
+            friendRequests: newFriendRequests
+          })
+        }
 
-  componentWillMount = () => {
+      } else {
+        if(lists.data[i].sender === this.state.userInfo.username) {
+          newFriendRequestSended.push(lists.data[i])
+          if (newFriendRequestSended.length === 0) newFriendRequestSended = undefined
+        } else {
+          newFriendRequests.push(lists.data[i]);
+          if (newFriendRequests.length === 0) newFriendRequests = undefined
+        }
+      }
+    }
+
+
+    // if (newFriendRequestSended.length > 0) {this.setState({ friendRequestSended: newFriendRequests })}
+    // if (newFriendRequests.length > 0) this.setState({ friendRequests: newFriendRequests });
+  }
+  getData = () => {
     axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
       .then(response => {
         if (response.data) {
           console.log('logged in')
-          console.log(response.data);
           this.setState({ userInfo: response.data });
           return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
           })
         }
       })
       .then(lists => {
-        console.log(lists);
         this.onLoginDone(lists);
-
-      } )
-        
+      })
       .catch(err => console.log(err));
   }
 
-  onSignIn = (username, password, setupLogin) => {
-    axios.post("https://yeuxa-api.herokuapp.com/api/auth/", {
-      username: username,
-      password: password,
-    })
-      .then(response => {
-        console.log(response.data);
-        this.setState({ userInfo: response.data });
-        return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
-        })
+
+  onSignIn = (username, password) => {
+    this.setState({ fetchInProgress: true }, function () {
+      axios.post("https://yeuxa-api.herokuapp.com/api/auth/", {
+        username: username,
+        password: password,
       })
-      .then(lists => this.onLoginDone(lists))
-      .catch(err => console.log(err.err));
+        .then(response => {
+          this.setState({
+            fetchInProgress: false,
+            userInfo: response.data
+          });
+          return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {})
+        })
+        .then(lists => this.onLoginDone(lists))
+        .catch(error => {
+          this.setState({
+            fetchInProgress: false,
+            warning: "Incorrect Username or Password !"
+          });
+
+        });
+
+    });
   }
-  
+
+  clearWarning = () => {
+    this.setState({ warning: undefined });
+  }
+  setWarning = (warning) => {
+    this.setState({ warning: warning })
+  }
   onSignUp = (avatar, name, username, password, onSignIn) => {
-  
+    this.setState({ fetchInProgress: true }, function () {
       var formData = new FormData();
       formData.append("avatar", avatar);
       formData.append("fullname", name);
@@ -65,8 +115,13 @@ class App extends Component {
       formData.append("password", password);
       axios.post("https://yeuxa-api.herokuapp.com/api/users/", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(response => this.onSignIn(username, password))
-        .catch(err => console.log(err));
-    
+        .catch(err => {
+          this.setState({
+            fetchInProgress: false,
+            warning: 'Username already exists !'
+          });
+        });
+    });
   }
 
   onLogOut = () => {
@@ -76,13 +131,16 @@ class App extends Component {
   onAceptInvite = (id, sender, receiver) => {
     axios.put('https://yeuxa-api.herokuapp.com/api/friend/accept-invitation', { id })
       .then(response => {
-        var friend;
-        (this.state.userInfo.username === sender) ? friend = receiver : friend = sender;
+        console.log('aceptInvite')
+        console.log(response.data._id)
+        console.log(this.state)
+        let newUserInfo = this.state.userInfo;
+        newUserInfo['room'] = response.data._id;
         this.setState({
           friendRequests: null,
-          friend: friend
+          userInfo: newUserInfo
         });
-        console.log('Request Accepted')
+        console.log(this.state);
       })
       .catch(err => console.log(err));
   }
@@ -102,14 +160,24 @@ class App extends Component {
   }
 
   onsendRequest = (username) => {
-    axios.post('https://yeuxa-api.herokuapp.com/api/friend/add-friend', {
-      username: username
-    })
-      .then(response => {
-        this.setState({ friendRequestSended: username })
-        console.log(`request sended to: ` + username)
+    this.setState({ fetchInProgress: true }, function () {
+      axios.post('https://yeuxa-api.herokuapp.com/api/friend/add-friend', {
+        username: username
       })
-      .catch(err => console.log(err))
+        .then(response => {
+          this.setState({
+            fetchInProgress: false,
+            friendRequestSended: username
+          })
+          console.log(`request sended to: ` + username)
+        })
+        .catch(err => {
+          this.setState({
+            fetchInProgress: false,
+            warning: "Username does not exist !"
+          })
+        })
+    });
   }
 
   render() {
@@ -117,11 +185,17 @@ class App extends Component {
       <div className="App">
         <div className="body" >
           {(this.state.userInfo && this.state.userInfo.room)
-            ? <Home
-              onLogOut={this.onLogOut}
-              userInfo={this.state.userInfo}
-              />
+            ? <div onClick={this.onLogOut} >123213213</div>
+            // ? <Home
+            //   onLogOut={this.onLogOut}
+            //   userInfo={this.state.userInfo}
+            // />
             : <Container
+              setWarning={this.setWarning}
+              clearWarning={this.clearWarning}
+              warning={this.state.warning}
+              fetchInProgress={this.state.fetchInProgress}
+              getData={this.getData}
               onDeclineInvite={this.onDeclineInvite}
               onAceptInvite={this.onAceptInvite}
               onLogOut={this.onLogOut}

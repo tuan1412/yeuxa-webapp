@@ -10,6 +10,10 @@ class CardSignUp extends Component {
             <div className="card">
                 <CardHeader />
                 <CardForm
+                    setWarning={this.props.setWarning}
+                    clearWarning={this.props.clearWarning}
+                    warning={this.props.warning}
+                    fetchInProgress={this.props.fetchInProgress}
                     containerToShow={this.props.containerToShow}
                     onSignUp={this.props.onSignUp}
                     onSignIn={this.props.onSignIn} />
