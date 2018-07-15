@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class CardRequestSended extends Component {
     onCancelInvite = event => {
         event.preventDefault();
-        this.props.onCancelInvite();
+        this.props.getData();
+        alert('Still waiting for he/she to accept !')
     }
     onLogOut = event => {
         event.preventDefault();
@@ -15,12 +16,12 @@ class CardRequestSended extends Component {
                 <div className="card-body">
                     <div className="web-logo text-center">
                         <span className="waiting-helper">Waiting for Parter</span>
-                        <p className="instruction-helper">Waiting for {this.props.friendRequestSended} to accept your invite.</p>
+                        <p className="instruction-helper">Waiting for {this.props.friendRequestSended || ""} to accept your invite.</p>
                     </div>
                 </div>
                 <div className="card-body">
                     <form className="form">
-                        <button onClick={this.onCancelInvite} type="submit" id="cancelInvite-btn" className="btn btn-sm btn-block">Cancel Invite !</button>
+                        <button onClick={this.onCancelInvite} type="submit" id="cancelInvite-btn" className="btn btn-sm btn-block">Refresh (to see if they accepted)</button>
                         <button onClick={this.onLogOut}type="submit" id="signOut-btn" className="btn btn-sm btn-block">Sign Out !</button>
                     </form>
                 </div>

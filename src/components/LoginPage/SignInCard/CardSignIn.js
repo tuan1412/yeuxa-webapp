@@ -27,12 +27,17 @@ class CardSignIn extends Component {
         return (
             <div className="card">
                 <CardLogo />
-                <CardForm   onSignIn={this.props.onSignIn}
-                            onUsernameChange={this.onUsernameChange} 
-                            onPasswordChange={this.onPasswordChange}
-                            username={this.state.username}
-                            password={this.state.password} />
-                <CardFooter containerToShow={this.props.containerToShow}/>
+                <CardForm
+                    clearWarning={this.props.clearWarning}
+
+                    warning={this.props.warning}
+                    onSignIn={this.props.onSignIn}
+                    fetchInProgress={this.props.fetchInProgress}
+                    onUsernameChange={this.onUsernameChange}
+                    onPasswordChange={this.onPasswordChange}
+                    username={this.state.username}
+                    password={this.state.password} />
+                <CardFooter containerToShow={this.props.containerToShow} />
             </div>
         );
     }

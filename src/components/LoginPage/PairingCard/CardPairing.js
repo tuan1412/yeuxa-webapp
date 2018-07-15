@@ -10,6 +10,9 @@ class CardPairing extends Component {
             <div className="card">
                 <CardTitle />
                 <CardBody
+                    clearWarning={this.props.clearWarning}
+                    warning={this.props.warning}
+                    fetchInProgress={this.props.fetchInProgress}
                     onsendRequest={this.props.onsendRequest}
                     onLogOut={this.props.onLogOut} />
                 <CardFooter />
