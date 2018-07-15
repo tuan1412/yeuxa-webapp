@@ -1,0 +1,14 @@
+.MessageInput {
+    display: flex;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    border-color: #c2c9cc
+}
+
+.MessageInput-input {
+    margin: 10px;
+}
+
+.MessageInput-button {
+    margin: 10px;
+}

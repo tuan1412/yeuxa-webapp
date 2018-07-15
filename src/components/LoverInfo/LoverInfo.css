@@ -1,0 +1,17 @@
+.LoveInfo {
+    margin-left: 30px;
+    padding-top: 40px;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.LoveInfo img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.LoveInfo .status {
+    font-size: 16px;
+}

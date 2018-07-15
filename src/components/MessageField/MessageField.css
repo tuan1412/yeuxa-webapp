@@ -1,0 +1,19 @@
+.MessageFeild {
+    height: 100%;
+    position: relative;
+}
+
+.MessageFeild-list {
+    position: absolute;
+    top: 0px;
+    bottom: 65px;
+    overflow: auto;
+    width: 100%;
+}
+
+.MessageFeild-input {
+    position: absolute;
+    bottom: 0px;
+    height: 65px;
+    width: 100%;
+}

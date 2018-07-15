@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
-import 'react-fontawesome';
 import axios from './axios';
 
 
 import Container from "./components/LoginPage/Container";
+import Home from "./containers/Home/Home";
 
 class App extends Component {
   constructor(props) {
@@ -185,11 +185,11 @@ class App extends Component {
       <div className="App">
         <div className="body" >
           {(this.state.userInfo && this.state.userInfo.room)
-            ? <div onClick={this.onLogOut} >123213213</div>
-            // ? <Home
-            //   onLogOut={this.onLogOut}
-            //   userInfo={this.state.userInfo}
-            // />
+            // ? <div onClick={this.onLogOut} >123213213</div>
+            ? <Home
+              onLogOut={this.onLogOut}
+              userInfo={this.state.userInfo}
+            />
             : <Container
               setWarning={this.setWarning}
               clearWarning={this.clearWarning}
