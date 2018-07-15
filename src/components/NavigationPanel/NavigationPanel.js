@@ -18,7 +18,7 @@ class NavigationPanel extends Component {
       <div className="NavigationPanel" style={styles}>
         <LoverInfo lover={lover}/>
         <PlaceInfo place={lover.place}/>
-        <MenuList />
+        {/* <MenuList /> */}
         <SignOutBtn />
       </div>
     )

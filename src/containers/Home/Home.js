@@ -22,7 +22,7 @@ class Home extends Component {
         const { username, room } = this.props.userInfo;
         axios.get(`https://yeuxa-api.herokuapp.com/api/users/${username}`)
             .then(res => this.setState({
-                user: res.data
+                user: { ...res.data, imgUrl: `https://yeuxa-api.herokuapp.com${res.data.avatarUrl}` }
             }));
 
 
@@ -33,10 +33,13 @@ class Home extends Component {
                 return axios.get(`https://yeuxa-api.herokuapp.com/api/users/${loveUsername}`)
             })
             .then(res => this.setState({
-                lover: res.data
+                lover: { ...res.data, imgUrl: `https://yeuxa-api.herokuapp.com${res.data.avatarUrl}` }
             }));
 
-
+        axios.get(`https://yeuxa-api.herokuapp.com/api/room/${room}`)
+            .then(res => this.setState({
+                messages: res.data
+            }))
 
         this.socket = io('https://yeuxa-api.herokuapp.com');
         const self = this;
@@ -47,6 +50,7 @@ class Home extends Component {
                 place: { city: res.data.city, country: res.data.country_name }
             }));
         this.socket.on('loveOnline', function (loveInfo) {
+            console.log(loveInfo);
             if (loveInfo.length >= 2) {
                 self.setState({
                     lover: { ...self.state.lover, online: true }
@@ -75,10 +79,21 @@ class Home extends Component {
     }
 
     sendChat = () => {
-        this.socket.emit('message', {
-            username: this.state.user.username,
-            content: this.state.chatContent
+        const self = this;
+        self.socket.emit('message', {
+            userName: this.state.user.username,
+            body: this.state.chatContent
         });
+        axios.put(`https://yeuxa-api.herokuapp.com/api/room/${this.props.userInfo.room}`, {
+            username: this.state.user.username,
+            contents: this.state.chatContent
+        })
+            .then(res => {
+              
+                self.setState({
+                    chatContent: ''
+                })
+            })
     };
 
 
