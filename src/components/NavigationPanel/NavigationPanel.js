@@ -10,10 +10,13 @@ class NavigationPanel extends Component {
     let weather = {};
     const { lover, onLogOut } = this.props;
     if (lover.place !== undefined) {
-      styles = {
-        background: `url(${lover.place.img.url}) no-repeat`,
-        backgroundSize: 'cover'
+      if (lover.place.img !== undefined) {
+        styles = {
+          background: `url(${lover.place.img.url}) no-repeat`,
+          backgroundSize: 'cover'
+        }
       }
+     
       place = lover.location;
       weather = lover.place.weather;
     }
