@@ -18,6 +18,11 @@ class Home extends Component {
         }
     }
 
+    onLogOut = () => {
+        this.socket.disconnect();
+        this.props.onLogOut();
+    }
+
     componentWillMount() {
         const { username, room } = this.props.userInfo;
         axios.get(`https://yeuxa-api.herokuapp.com/api/users/${username}`)
@@ -110,7 +115,7 @@ class Home extends Component {
                         style={{ height: "100%" }}>
                         <NavigationPanel
                             lover={lover}
-                            onLogOut={this.props.onLogOut} />
+                            onLogOut={this.onLogOut} />
                     </Col>
                     <Col md="8"
                         style={{ height: "100%" }}>
