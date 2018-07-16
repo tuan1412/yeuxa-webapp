@@ -89,7 +89,10 @@ class Home extends Component {
         const self = this;  
         self.setState((preState) => {
             return {
-                messages: [...preState.messages,this.state.chatContent]
+                messages: [...preState.messages,{
+                    userName: this.state.user.username,
+                    body: this.state.chatContent
+                }]
             }
         })
         self.socket.emit('message', {
