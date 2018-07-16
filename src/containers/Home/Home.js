@@ -46,8 +46,8 @@ class Home extends Component {
                 messages: res.data
             }))
 
-        // this.socket = io('https://yeuxa-api.herokuapp.com');
-                this.socket = io('localhost:9000');
+        this.socket = io('https://yeuxa-api.herokuapp.com');
+                // this.socket = io('localhost:9000');
 
         const self = this;
         axios.get('https://geoip-db.com/json/')
