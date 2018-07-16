@@ -9,6 +9,7 @@ class CardChooseCouple extends Component {
       <div className="card stack">
         <CardHeader friendRequests={this.props.friendRequests} />
         <CardBody
+          fetchInProgress={this.props.fetchInProgress}
           onLogOut={this.props.onLogOut}
           onDeclineInvite={this.props.onDeclineInvite}
           onAceptInvite={this.props.onAceptInvite}

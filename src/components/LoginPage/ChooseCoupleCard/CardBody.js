@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import loading from '../../Ellipsis-1s-200px.gif';
 
 class CardBody extends Component {
     constructor(props) {
@@ -21,10 +22,21 @@ class CardBody extends Component {
         return (
             <div className="card-body">
                 <form className="form">
-                    <button onClick={this.onAceptInvite}
-                        type="submit"
-                        id="cancelInvite-btn"
-                        className="btn btn-sm btn-block">Accept Invite</button>
+
+                    {
+                        (this.props.fetchInProgress)
+                            ? <div className="btn btn-sm btn-block btn-loading">
+                                <img className="loading" src={loading} alt='loading' />
+                            </div>
+                            : <button onClick={this.onAceptInvite}
+                                type="submit"
+                                id="cancelInvite-btn"
+                                className="btn btn-sm btn-block">Accept Invite</button>
+
+                    }
+
+
+
                     <button
                         onClick={this.onDeclineInvite}
                         type="submit"
