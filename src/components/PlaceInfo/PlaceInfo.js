@@ -3,7 +3,7 @@ import './PlaceInfo.css';
 
 class PlaceInfo extends Component {
     render() {
-        const { place = {}, weather } = this.props;
+        const { place = {}, weather = {} } = this.props;
         const { city, country } = place;
         const { des, temp, icon } = weather;
         return (
