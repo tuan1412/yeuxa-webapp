@@ -50,7 +50,7 @@ class Home extends Component {
                 place: { city: res.data.city, country: res.data.country_name }
             }));
         this.socket.on('loveOnline', function (loveInfo) {
-            console.log(loveInfo);
+            // console.log(loveInfo);
             
             if (loveInfo.length >= 2) {
                 const love = loveInfo[0].username === username ? loveInfo[1] : loveInfo[0];

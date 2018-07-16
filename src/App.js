@@ -57,7 +57,6 @@ class App extends Component {
     axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
       .then(response => {
         if (response.data) {
-          console.log('logged in')
           this.setState({ userInfo: response.data });
           return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
           })
