@@ -8,11 +8,19 @@ import Home from "./containers/Home/Home";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      request: {
+        friendRequests: [],
+        friendRequestSended: []
+      }
+    }
     axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
       .then(response => {
         if (response.data) {
-          this.setState({ userInfo: response.data });
+          console.log(response.data)
+          let object = response.data;
+          if(this.state.room) object.room = this.state.room;
+          this.setState({ userInfo: object });
           return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
           })
         }
@@ -20,53 +28,26 @@ class App extends Component {
       .then(lists => this.onLoginDone(lists))
       .catch(err => console.log(err));
   }
-
+  changeWarning = (warning) => {
+    this.setState({ warning: warning })
+  }
+  changeStatefetch = () => {
+    this.setState({ fetchInProgress: true })
+  }
   onLoginDone = (lists) => {
-    let newFriendRequests = [];
-    let newFriendRequestSended = [];
-    for (let i = 0; i <= lists.data.length; i++) {
-      if (i === lists.data.length) {
-        if(i === 0) {
-          this.setState({
-            friendRequestSended: undefined,
-            friendRequests: undefined
-          })
-        } else {
-          this.setState({
-            friendRequestSended: newFriendRequests,
-            friendRequests: newFriendRequests
-          })
-        }
-
-      } else {
-        if(lists.data[i].sender === this.state.userInfo.username) {
-          newFriendRequestSended.push(lists.data[i])
-          if (newFriendRequestSended.length === 0) newFriendRequestSended = undefined
-        } else {
-          newFriendRequests.push(lists.data[i]);
-          if (newFriendRequests.length === 0) newFriendRequests = undefined
-        }
-      }
+    let newFriendRequests = lists.data.filter((list => list.receiver === this.state.userInfo.username));
+    let newFriendRequestSended = lists.data.filter((list => list.sender === this.state.userInfo.username));
+    let request = {
+      friendRequests: newFriendRequests,
+      friendRequestSended: newFriendRequestSended
     }
-
-
-    // if (newFriendRequestSended.length > 0) {this.setState({ friendRequestSended: newFriendRequests })}
-    // if (newFriendRequests.length > 0) this.setState({ friendRequests: newFriendRequests });
+    this.setState({
+      request: request,
+      fetchInProgress: false
+    })
+    console.log(this.state)
   }
-  getData = () => {
-    axios.get("https://yeuxa-api.herokuapp.com/api/auth/")
-      .then(response => {
-        if (response.data) {
-          this.setState({ userInfo: response.data });
-          return axios.get("https://yeuxa-api.herokuapp.com/api/friend/list-invitation", {
-          })
-        }
-      })
-      .then(lists => {
-        this.onLoginDone(lists);
-      })
-      .catch(err => console.log(err));
-  }
+
 
 
   onSignIn = (username, password) => {
@@ -121,30 +102,62 @@ class App extends Component {
   onLogOut = () => {
     console.log('logout');
     axios.delete('https://yeuxa-api.herokuapp.com/api/auth');
-    this.setState({ userInfo: undefined });
+    this.setState({
+      userInfo: undefined,
+      request: {
+        friendRequests: [],
+        friendRequestSended: []
+      }
+    });
   }
   onAceptInvite = (id, sender, receiver) => {
-    axios.put('https://yeuxa-api.herokuapp.com/api/friend/accept-invitation', { id })
-      .then(response => {
-        let newUserInfo = this.state.userInfo;
-        newUserInfo['room'] = response.data._id;
-        this.setState({
-          friendRequests: null,
-          userInfo: newUserInfo
-        });
-      })
-      .catch(err => console.log(err));
+    this.setState({ fetchInProgress: true }, function () {
+      axios.put('https://yeuxa-api.herokuapp.com/api/friend/accept-invitation', { id })
+        .then(response => {
+          let newUserInfo = this.state.userInfo;
+          newUserInfo['room'] = response.data._id;
+          this.setState({
+            room: response.data._id,
+            request: {
+              friendRequests: [],
+              friendRequestSended: []
+            },
+            userInfo: newUserInfo,
+            fetchInProgress: false
+          });
+          console.log(response.data)
+          console.log(this.state)
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({
+            fetchInProgress: false
+          })
+        }); 
+    });
   }
 
   onDeclineInvite = (id) => {
     axios.put('https://yeuxa-api.herokuapp.com/api/friend/reject-invitation', { id })
       .then(response => {
-        if (this.state.friendRequests.length > 1) {
-          var newFriendRequests = [...this.state.friendRequests];
+        if (this.state.request.friendRequests.length > 1) {
+          let newFriendRequests = [...this.state.request.friendRequests];
+          let newFriendRequestSended = [...this.state.request.friendRequestSended];
           newFriendRequests.splice(0, 1);
-          this.setState({ friendRequests: newFriendRequests })
+          let object = {
+            request: {
+              friendRequests: newFriendRequests,
+              friendRequestSended: newFriendRequestSended
+            },
+          }
+          this.setState({ request: object })
         } else {
-          this.setState({ friendRequests: null });
+          this.setState({
+            request: {
+              friendRequests: [],
+              friendRequestSended: []
+            }
+          });
         }
       })
       .catch(err => console.log(err));
@@ -156,9 +169,11 @@ class App extends Component {
         username: username
       })
         .then(response => {
+          let object = this.state.request;
+          object.friendRequestSended = username
           this.setState({
             fetchInProgress: false,
-            friendRequestSended: username
+            friendRequestSended: object
           })
         })
         .catch(err => {
@@ -181,6 +196,9 @@ class App extends Component {
               userInfo={this.state.userInfo}
             />
             : <Container
+              changeWarning={this.changeWarning}
+              changeStatefetch={this.changeStatefetch}
+              onLoginDone={this.onLoginDone}
               setWarning={this.setWarning}
               clearWarning={this.clearWarning}
               warning={this.state.warning}
@@ -194,8 +212,7 @@ class App extends Component {
               onSignUp={this.onSignUp}
               onsendRequest={this.onsendRequest}
               userInfo={this.state.userInfo}
-              friendRequestSended={this.state.friendRequestSended}
-              friendRequests={this.state.friendRequests} />}
+              request={this.state.request} />}
         </div>
       </div>
     );
