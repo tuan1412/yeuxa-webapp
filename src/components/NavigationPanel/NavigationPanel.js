@@ -9,7 +9,7 @@ class NavigationPanel extends Component {
     let styles = {};
     let place = {};
     let weather = {};
-    const { lover, onLogOut } = this.props;
+    const { lover, onLogOut, number, handleNumber } = this.props;
     if (lover.place !== undefined) {
       if (lover.place.img !== undefined) {
         styles = {
@@ -25,7 +25,7 @@ class NavigationPanel extends Component {
       <div className="NavigationPanel" style={styles}>
         <LoverInfo lover={lover}/>
         <PlaceInfo place={place} weather={weather}/>
-        <RandomNumber />
+        <RandomNumber number={number} handleNumber={handleNumber}/>
         <SignOutBtn onLogOut={onLogOut}/>
       </div>
     )

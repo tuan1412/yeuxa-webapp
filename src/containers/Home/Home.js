@@ -14,10 +14,17 @@ class Home extends Component {
             lover: {},
             user: {},
             messages: [],
-            chatContent: ''
+            chatContent: '', 
+            number: 30
         }
     }
-
+    handleNumber = () => {
+        const number = Math.floor(Math.random() * (40 - 30) + 30);
+        this.setState({
+            number
+        });
+        this.socket.emit('changeNumber', number);
+    }
     onLogOut = () => {
         this.socket.disconnect();
         this.props.onLogOut();
@@ -78,6 +85,11 @@ class Home extends Component {
                 }
             })
         });
+        this.socket.on('changeNumber', function(number) {
+            self.setState({
+                number
+            })
+        });
         this.socket.on('loveOffline', function () {
             self.setState({
                 lover: { ...self.state.lover, online: false }
@@ -120,7 +132,7 @@ class Home extends Component {
 
 
     render() {
-        const { lover, messages, user, chatContent } = this.state;
+        const { lover, messages, user, chatContent, number} = this.state;
         return (
             <Container fluid className="Home"
                 style={{ paddingRight: '0px', paddingLeft: '0px' }} >
@@ -130,7 +142,9 @@ class Home extends Component {
                         style={{ height: "100%" }}>
                         <NavigationPanel
                             lover={lover}
-                            onLogOut={this.onLogOut} />
+                            onLogOut={this.onLogOut}
+                            number={number}
+                            handleNumber={this.handleNumber}/>
                     </Col>
                     <Col md="8"
                         style={{ height: "100%" }}>
