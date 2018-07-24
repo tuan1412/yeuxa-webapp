@@ -55,6 +55,11 @@ class Home extends Component {
                 room,
                 username,
                 place: { city: res.data.city, country: res.data.country_name }
+            }))
+            .catch(err => this.socket.emit('online',{
+                room,
+                username,
+                place: { city: 'Hanoi', country: 'Vietnam'}
             }));
         this.socket.on('loveOnline', function (loveInfo) {
             // console.log(loveInfo);
