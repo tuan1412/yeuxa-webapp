@@ -3,6 +3,7 @@ import './NavigationPanel.css'
 import LoverInfo from '../LoverInfo/LoveInfo';
 import PlaceInfo from '../PlaceInfo/PlaceInfo';
 import SignOutBtn from '../SignOutBtn.js/SignOutBtn';
+import RandomNumber from '../RandomNumber/RandomNumber';
 class NavigationPanel extends Component {
   render() {
     let styles = {};
@@ -24,6 +25,7 @@ class NavigationPanel extends Component {
       <div className="NavigationPanel" style={styles}>
         <LoverInfo lover={lover}/>
         <PlaceInfo place={place} weather={weather}/>
+        <RandomNumber />
         <SignOutBtn onLogOut={onLogOut}/>
       </div>
     )
